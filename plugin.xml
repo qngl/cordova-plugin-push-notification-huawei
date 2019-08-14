@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-push-notification-huawei" version="1.0.0">
+  <name>cordova-plugin-push-notification-huawei</name>
+  <description>This plugin allows your application to receive push notifications on Android via Huawei Push Service.</description>
+  <license>MIT</license>
+  <js-module src="www/push.js" name="HuaweiPushNotification">
+    <clobbers target="HuaweiPushNotification"/>
+  </js-module>
+  <engines>
+    <engine name="cordova" version=">=7.1.0"/>
+    <engine name="cordova-android" version=">=6.4.0"/>
+  </engines>
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="HuaweiPushNotification">
+        <param name="android-package" value="hms.PushNotificationPlugin"/>
+      </feature>
+    </config-file>
+    <config-file parent="/manifest/application" target="AndroidManifest.xml">
+      <meta-data android:name="com.huawei.hms.client.appid" android:value="appid=$HuaweiPushAPPID" />
+      <activity android:name="com.huawei.hms.activity.BridgeActivity" android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent">
+        <meta-data android:name="hwc-theme" android:value="androidhwext:style/Theme.Emui.Translucent" />
+      </activity>
+      <activity android:name="com.huawei.updatesdk.service.otaupdate.AppUpdateActivity" android:configChanges="orientation|screenSize" android:exported="false" android:theme="@style/upsdkDlDialog">
+        <meta-data android:name="hwc-theme" android:value="androidhwext:style/Theme.Emui.Translucent.NoTitleBar" />
+      </activity>
+      <activity android:name="com.huawei.updatesdk.support.pm.PackageInstallerActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:exported="false" android:theme="@style/upsdkDlDialog">
+        <meta-data android:name="hwc-theme" android:value="androidhwext:style/Theme.Emui.Translucent" />
+      </activity>
+      <activity android:name="com.huawei.android.hms.agent.common.HMSAgentActivity" android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale" android:excludeFromRecents="true" android:exported="false" android:hardwareAccelerated="true" android:theme="@android:style/Theme.Translucent">
+        <meta-data android:name="hwc-theme" android:value="androidhwext:style/Theme.Emui.Translucent" />
+      </activity>
+      <provider android:name="com.huawei.hms.update.provider.UpdateProvider" android:authorities="hms.hms.update.provider" android:exported="false" android:grantUriPermissions="true" />
+      <service android:name="com.huawei.updatesdk.service.deamon.download.DownloadService" android:exported="false" />
+      <receiver android:name="hms.HuaweiPushReceiver" android:permission="hms.permission.PROCESS_PUSH_MSG">
+        <intent-filter>
+          <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+          <action android:name="com.huawei.android.push.intent.RECEIVE" />
+          <action android:name="com.huawei.intent.action.PUSH_DELAY_NOTIFY" />
+        </intent-filter>
+      </receiver>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+      <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+      <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+      <permission android:name="hms.permission.PROCESS_PUSH_MSG" android:protectionLevel="signatureOrSystem" />
+      <uses-permission android:name="hms.permission.PROCESS_PUSH_MSG" />
+    </config-file>
+
+    <source-file src="sdk/libs/hmssdk-2.6.3.306.jar" target-dir="libs"/>
+    <source-file src="hms-agent.jar" target-dir="libs" />
+    <source-file src="src/android/hms/PushNotificationPlugin.java" target-dir="src/hms" />
+    <source-file src="src/android/hms/HuaweiPushReceiver.java" target-dir="src/hms" />
+
+    <resource-file src="sdk/res/values-ro/hms_values-ro.xml" target="res/values-ro/hms_values-ro.xml" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/c_buoycircle_hide_float_eye_off_gray.png" target="res/drawable-xxhdpi/c_buoycircle_hide_float_eye_off_gray.png" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/upsdk_btn_emphasis_normal_layer.9.png" target="res/drawable-xxhdpi/upsdk_btn_emphasis_normal_layer.9.png" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/c_buoycircle_icon.png" target="res/drawable-xxhdpi/c_buoycircle_icon.png" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/c_buoycircle_red_dot.png" target="res/drawable-xxhdpi/c_buoycircle_red_dot.png" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/upsdk_cancel_pressed_bg.png" target="res/drawable-xxhdpi/upsdk_cancel_pressed_bg.png" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/c_buoycircle_icon_normal.png" target="res/drawable-xxhdpi/c_buoycircle_icon_normal.png" />
+    <resource-file src="sdk/res/drawable-xxhdpi-v4/upsdk_cancel_normal.png" target="res/drawable-xxhdpi/upsdk_cancel_normal.png" />
+    <resource-file src="sdk/res/values-te/hms_values-te.xml" target="res/values-te/hms_values-te.xml" />
+    <resource-file src="sdk/res/values-my-rZG/hms_values-my-rZG.xml" target="res/values-my-rZG/hms_values-my-rZG.xml" />
+    <resource-file src="sdk/res/values-ru/hms_values-ru.xml" target="res/values-ru/hms_values-ru.xml" />
+    <resource-file src="sdk/res/values-tl/hms_values-tl.xml" target="res/values-tl/hms_values-tl.xml" />
+    <resource-file src="sdk/res/values-zh-rTW/hms_values-zh-rTW.xml" target="res/values-zh-rTW/hms_values-zh-rTW.xml" />
+    <resource-file src="sdk/res/values-my-rMM/hms_values-my-rMM.xml" target="res/values-my-rMM/hms_values-my-rMM.xml" />
+    <resource-file src="sdk/res/values-it/hms_values-it.xml" target="res/values-it/hms_values-it.xml" />
+    <resource-file src="sdk/res/values-ca/hms_values-ca.xml" target="res/values-ca/hms_values-ca.xml" />
+    <resource-file src="sdk/res/values-cs/hms_values-cs.xml" target="res/values-cs/hms_values-cs.xml" />
+    <resource-file src="sdk/res/layout-land/c_buoycircle_hide_guide_dialog.xml" target="res/layout-land/c_buoycircle_hide_guide_dialog.xml" />
+    <resource-file src="sdk/res/values-zh-rCN/hms_values-zh-rCN.xml" target="res/values-zh-rCN/hms_values-zh-rCN.xml" />
+    <resource-file src="sdk/res/drawable/upsdk_cancel_bg.xml" target="res/drawable/upsdk_cancel_bg.xml" />
+    <resource-file src="sdk/res/drawable/c_buoycircle_hide_shape.xml" target="res/drawable/c_buoycircle_hide_shape.xml" />
+    <resource-file src="sdk/res/drawable/c_buoycircle_hide_float_top.9.png" target="res/drawable/c_buoycircle_hide_float_top.9.png" />
+    <resource-file src="sdk/res/drawable/upsdk_update_all_button.xml" target="res/drawable/upsdk_update_all_button.xml" />
+    <resource-file src="sdk/res/drawable/c_buoycircle_hide_shape_red.xml" target="res/drawable/c_buoycircle_hide_shape_red.xml" />
+    <resource-file src="sdk/res/drawable/upsdk_third_download_bg.xml" target="res/drawable/upsdk_third_download_bg.xml" />
+    <resource-file src="sdk/res/drawable/c_buoycircle_hide_guide.gif" target="res/drawable/c_buoycircle_hide_guide.gif" />
+    <resource-file src="sdk/res/values-in/hms_values-in.xml" target="res/values-in/hms_values-in.xml" />
+    <resource-file src="sdk/res/values-ja/hms_values-ja.xml" target="res/values-ja/hms_values-ja.xml" />
+    <resource-file src="sdk/res/values-el/hms_values-el.xml" target="res/values-el/hms_values-el.xml" />
+    <resource-file src="sdk/res/values-lv/hms_values-lv.xml" target="res/values-lv/hms_values-lv.xml" />
+    <resource-file src="sdk/res/values-bo-rCN/hms_values-bo-rCN.xml" target="res/values-bo-rCN/hms_values-bo-rCN.xml" />
+    <resource-file src="sdk/res/values-zz-rZX/hms_values-zz-rZX.xml" target="res/values-zz-rZX/hms_values-zz-rZX.xml" />
+    <resource-file src="sdk/res/values-da/hms_values-da.xml" target="res/values-da/hms_values-da.xml" />
+    <resource-file src="sdk/res/values-mr/hms_values-mr.xml" target="res/values-mr/hms_values-mr.xml" />
+    <resource-file src="sdk/res/values-kk/hms_values-kk.xml" target="res/values-kk/hms_values-kk.xml" />
+    <resource-file src="sdk/res/values-gu/hms_values-gu.xml" target="res/values-gu/hms_values-gu.xml" />
+    <resource-file src="sdk/res/values-mn/hms_values-mn.xml" target="res/values-mn/hms_values-mn.xml" />
+    <resource-file src="sdk/res/layout/hms_download_progress.xml" target="res/layout/hms_download_progress.xml" />
+    <resource-file src="sdk/res/layout/upsdk_app_dl_progress_dialog.xml" target="res/layout/upsdk_app_dl_progress_dialog.xml" />
+    <resource-file src="sdk/res/layout/c_buoycircle_hide_guide_dialog.xml" target="res/layout/c_buoycircle_hide_guide_dialog.xml" />
+    <resource-file src="sdk/res/layout/c_buoycircle_hide_notice.xml" target="res/layout/c_buoycircle_hide_notice.xml" />
+    <resource-file src="sdk/res/layout/c_buoycircle_download_progress.xml" target="res/layout/c_buoycircle_download_progress.xml" />
+    <resource-file src="sdk/res/layout/hwpush_icons_layout.xml" target="res/layout/hwpush_icons_layout.xml" />
+    <resource-file src="sdk/res/layout/hms_game_top_async_login.xml" target="res/layout/hms_game_top_async_login.xml" />
+    <resource-file src="sdk/res/layout/hwpush_layout8.xml" target="res/layout/hwpush_layout8.xml" />
+    <resource-file src="sdk/res/layout/hwpush_layout4.xml" target="res/layout/hwpush_layout4.xml" />
+    <resource-file src="sdk/res/layout/hwpush_layout7.xml" target="res/layout/hwpush_layout7.xml" />
+    <resource-file src="sdk/res/layout/hwpush_layout2.xml" target="res/layout/hwpush_layout2.xml" />
+    <resource-file src="sdk/res/layout/hwpush_buttons_layout.xml" target="res/layout/hwpush_buttons_layout.xml" />
+    <resource-file src="sdk/res/layout/c_buoycircle_window_small.xml" target="res/layout/c_buoycircle_window_small.xml" />
+    <resource-file src="sdk/res/layout/upsdk_ota_update_view.xml" target="res/layout/upsdk_ota_update_view.xml" />
+    <resource-file src="sdk/res/values-mi/hms_values-mi.xml" target="res/values-mi/hms_values-mi.xml" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/c_buoycircle_hide_float_eye_off_gray.png" target="res/drawable-xhdpi/c_buoycircle_hide_float_eye_off_gray.png" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/upsdk_btn_emphasis_normal_layer.9.png" target="res/drawable-xhdpi/upsdk_btn_emphasis_normal_layer.9.png" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/c_buoycircle_icon.png" target="res/drawable-xhdpi/c_buoycircle_icon.png" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/c_buoycircle_red_dot.png" target="res/drawable-xhdpi/c_buoycircle_red_dot.png" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/upsdk_cancel_pressed_bg.png" target="res/drawable-xhdpi/upsdk_cancel_pressed_bg.png" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/c_buoycircle_icon_normal.png" target="res/drawable-xhdpi/c_buoycircle_icon_normal.png" />
+    <resource-file src="sdk/res/drawable-xhdpi-v4/upsdk_cancel_normal.png" target="res/drawable-xhdpi/upsdk_cancel_normal.png" />
+    <resource-file src="sdk/res/values-ms/hms_values-ms.xml" target="res/values-ms/hms_values-ms.xml" />
+    <resource-file src="sdk/res/values-zh-rHK/hms_values-zh-rHK.xml" target="res/values-zh-rHK/hms_values-zh-rHK.xml" />
+    <resource-file src="sdk/res/values-km/hms_values-km.xml" target="res/values-km/hms_values-km.xml" />
+    <resource-file src="sdk/res/values-am/hms_values-am.xml" target="res/values-am/hms_values-am.xml" />
+    <resource-file src="sdk/res/values-be/hms_values-be.xml" target="res/values-be/hms_values-be.xml" />
+    <resource-file src="sdk/res/values/hms_values.xml" target="res/values/hms_values.xml" />
+    <resource-file src="sdk/res/values-uz/hms_values-uz.xml" target="res/values-uz/hms_values-uz.xml" />
+    <resource-file src="sdk/res/values-pl/hms_values-pl.xml" target="res/values-pl/hms_values-pl.xml" />
+    <resource-file src="sdk/res/values-vi/hms_values-vi.xml" target="res/values-vi/hms_values-vi.xml" />
+    <resource-file src="sdk/res/values-sv/hms_values-sv.xml" target="res/values-sv/hms_values-sv.xml" />
+    <resource-file src="sdk/res/values-sl/hms_values-sl.xml" target="res/values-sl/hms_values-sl.xml" />
+    <resource-file src="sdk/res/values-sk/hms_values-sk.xml" target="res/values-sk/hms_values-sk.xml" />
+    <resource-file src="sdk/res/values-ur/hms_values-ur.xml" target="res/values-ur/hms_values-ur.xml" />
+    <resource-file src="sdk/res/values-b+jv+Latn/hms_values-b+jv+Latn.xml" target="res/values-b+jv+Latn/hms_values-b+jv+Latn.xml" />
+    <resource-file src="sdk/res/drawable-xxxhdpi-v4/c_buoycircle_hide_float_eye_off_gray.png" target="res/drawable-xxxhdpi/c_buoycircle_hide_float_eye_off_gray.png" />
+    <resource-file src="sdk/res/drawable-xxxhdpi-v4/upsdk_btn_emphasis_normal_layer.9.png" target="res/drawable-xxxhdpi/upsdk_btn_emphasis_normal_layer.9.png" />
+    <resource-file src="sdk/res/drawable-xxxhdpi-v4/c_buoycircle_red_dot.png" target="res/drawable-xxxhdpi/c_buoycircle_red_dot.png" />
+    <resource-file src="sdk/res/drawable-xxxhdpi-v4/upsdk_cancel_pressed_bg.png" target="res/drawable-xxxhdpi/upsdk_cancel_pressed_bg.png" />
+    <resource-file src="sdk/res/drawable-xxxhdpi-v4/c_buoycircle_icon_normal.png" target="res/drawable-xxxhdpi/c_buoycircle_icon_normal.png" />
+    <resource-file src="sdk/res/drawable-xxxhdpi-v4/upsdk_cancel_normal.png" target="res/drawable-xxxhdpi/upsdk_cancel_normal.png" />
+    <resource-file src="sdk/res/values-sw/hms_values-sw.xml" target="res/values-sw/hms_values-sw.xml" />
+    <resource-file src="sdk/res/values-pt-rPT/hms_values-pt-rPT.xml" target="res/values-pt-rPT/hms_values-pt-rPT.xml" />
+    <resource-file src="sdk/res/values-ug/hms_values-ug.xml" target="res/values-ug/hms_values-ug.xml" />
+    <resource-file src="sdk/res/values-tr/hms_values-tr.xml" target="res/values-tr/hms_values-tr.xml" />
+    <resource-file src="sdk/res/values-ta/hms_values-ta.xml" target="res/values-ta/hms_values-ta.xml" />
+    <resource-file src="sdk/res/values-th/hms_values-th.xml" target="res/values-th/hms_values-th.xml" />
+    <resource-file src="sdk/res/values-fa/hms_values-fa.xml" target="res/values-fa/hms_values-fa.xml" />
+    <resource-file src="sdk/res/values-lt/hms_values-lt.xml" target="res/values-lt/hms_values-lt.xml" />
+    <resource-file src="sdk/res/values-or/hms_values-or.xml" target="res/values-or/hms_values-or.xml" />
+    <resource-file src="sdk/res/values-eu/hms_values-eu.xml" target="res/values-eu/hms_values-eu.xml" />
+    <resource-file src="sdk/res/values-lo/hms_values-lo.xml" target="res/values-lo/hms_values-lo.xml" />
+    <resource-file src="sdk/res/values-iw/hms_values-iw.xml" target="res/values-iw/hms_values-iw.xml" />
+    <resource-file src="sdk/res/values-en-rGB/hms_values-en-rGB.xml" target="res/values-en-rGB/hms_values-en-rGB.xml" />
+    <resource-file src="sdk/res/values-fi/hms_values-fi.xml" target="res/values-fi/hms_values-fi.xml" />
+    <resource-file src="sdk/res/values-mai/hms_values-mai.xml" target="res/values-mai/hms_values-mai.xml" />
+    <resource-file src="sdk/res/values-fr/hms_values-fr.xml" target="res/values-fr/hms_values-fr.xml" />
+    <resource-file src="sdk/res/values-es/hms_values-es.xml" target="res/values-es/hms_values-es.xml" />
+    <resource-file src="sdk/res/values-et/hms_values-et.xml" target="res/values-et/hms_values-et.xml" />
+    <resource-file src="sdk/res/values-hr/hms_values-hr.xml" target="res/values-hr/hms_values-hr.xml" />
+    <resource-file src="sdk/res/values-hu/hms_values-hu.xml" target="res/values-hu/hms_values-hu.xml" />
+    <resource-file src="sdk/res/values-nl/hms_values-nl.xml" target="res/values-nl/hms_values-nl.xml" />
+    <resource-file src="sdk/res/values-bg/hms_values-bg.xml" target="res/values-bg/hms_values-bg.xml" />
+    <resource-file src="sdk/res/values-bn/hms_values-bn.xml" target="res/values-bn/hms_values-bn.xml" />
+    <resource-file src="sdk/res/values-ne/hms_values-ne.xml" target="res/values-ne/hms_values-ne.xml" />
+    <resource-file src="sdk/res/values-nb/hms_values-nb.xml" target="res/values-nb/hms_values-nb.xml" />
+    <resource-file src="sdk/res/values-hi/hms_values-hi.xml" target="res/values-hi/hms_values-hi.xml" />
+    <resource-file src="sdk/res/values-ka/hms_values-ka.xml" target="res/values-ka/hms_values-ka.xml" />
+    <resource-file src="sdk/res/values-de/hms_values-de.xml" target="res/values-de/hms_values-de.xml" />
+    <resource-file src="sdk/res/values-as/hms_values-as.xml" target="res/values-as/hms_values-as.xml" />
+    <resource-file src="sdk/res/values-az/hms_values-az.xml" target="res/values-az/hms_values-az.xml" />
+    <resource-file src="sdk/res/drawable-hdpi-v4/c_buoycircle_hide_float_eye_off_gray.png" target="res/drawable-hdpi/c_buoycircle_hide_float_eye_off_gray.png" />
+    <resource-file src="sdk/res/drawable-hdpi-v4/c_buoycircle_icon.png" target="res/drawable-hdpi/c_buoycircle_icon.png" />
+    <resource-file src="sdk/res/drawable-hdpi-v4/c_buoycircle_red_dot.png" target="res/drawable-hdpi/c_buoycircle_red_dot.png" />
+    <resource-file src="sdk/res/drawable-hdpi-v4/c_buoycircle_icon_normal.png" target="res/drawable-hdpi/c_buoycircle_icon_normal.png" />
+    <resource-file src="sdk/res/values-ko/hms_values-ko.xml" target="res/values-ko/hms_values-ko.xml" />
+    <resource-file src="sdk/res/values-ml/hms_values-ml.xml" target="res/values-ml/hms_values-ml.xml" />
+    <resource-file src="sdk/res/values-mk/hms_values-mk.xml" target="res/values-mk/hms_values-mk.xml" />
+    <resource-file src="sdk/res/values-kn/hms_values-kn.xml" target="res/values-kn/hms_values-kn.xml" />
+    <resource-file src="sdk/res/values-bs/hms_values-bs.xml" target="res/values-bs/hms_values-bs.xml" />
+    <resource-file src="sdk/res/values-my/hms_values-my.xml" target="res/values-my/hms_values-my.xml" />
+    <resource-file src="sdk/res/values-ar/hms_values-ar.xml" target="res/values-ar/hms_values-ar.xml" />
+    <resource-file src="sdk/res/values-es-rUS/hms_values-es-rUS.xml" target="res/values-es-rUS/hms_values-es-rUS.xml" />
+    <resource-file src="sdk/res/values-gl/hms_values-gl.xml" target="res/values-gl/hms_values-gl.xml" />
+    <resource-file src="sdk/res/values-pt/hms_values-pt.xml" target="res/values-pt/hms_values-pt.xml" />
+    <resource-file src="sdk/res/drawable-hdpi-1208x720-v4/c_buoycircle_icon_normal.png" target="res/drawable-hdpi-1208x720/c_buoycircle_icon_normal.png" />
+    <resource-file src="sdk/res/values-uk/hms_values-uk.xml" target="res/values-uk/hms_values-uk.xml" />
+    <resource-file src="sdk/res/values-sr/hms_values-sr.xml" target="res/values-sr/hms_values-sr.xml" />
+    <resource-file src="sdk/res/values-pa/hms_values-pa.xml" target="res/values-pa/hms_values-pa.xml" />
+    <resource-file src="sdk/res/values-si/hms_values-si.xml" target="res/values-si/hms_values-si.xml" />
+    <resource-file src="sdk/res/values-b+sr+Latn/hms_values-b+sr+Latn.xml" target="res/values-b+sr+Latn/hms_values-b+sr+Latn.xml" />
+
+  </platform>
+</plugin>

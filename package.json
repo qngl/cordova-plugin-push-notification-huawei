@@ -1,0 +1,42 @@
+{
+  "name": "cordova-plugin-push-notification-huawei",
+  "description": "Register and receive android push notifications from Huawei Mobile Services.",
+  "version": "1.0.0",
+  "cordova": {
+    "id": "cordova-plugin-push-notification-huawei",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": {
+    "cordovaDependencies": {
+      "1.0.0": {
+        "cordova-android": ">=6.4.0",
+        "cordova": ">=7.1.0"
+      }
+    }
+  },
+  "author": "Li Qiang",
+  "license": "MIT",
+  "scripts": {
+    "fix": "eslint www --fix && pretty-quick --staged"
+  },
+  "devDependencies": {
+    "eslint": "5.16.0",
+    "eslint-config-google": "0.7.1",
+    "eslint-config-prettier": "4.2.0",
+    "eslint-plugin-prettier": "3.0.0",
+    "husky": "2.2.0",
+    "prettier": "1.17.0",
+    "pretty-quick": "1.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run fix"
+    }
+  }
+}
